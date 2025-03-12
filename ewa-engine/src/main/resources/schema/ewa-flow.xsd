@@ -1,0 +1,243 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.w3school.com.cn"
+           xmlns="http://www.w3school.com.cn"
+           elementFormDefault="qualified">
+    <xs:element name="engines">
+        <xs:annotation>
+            <xs:documentation><![CDATA[engine根对象]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="engine" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="pipeline" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="configParams" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="scripts" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="engine">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个engine]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="pipeline" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 配置参数列表 -->
+    <xs:element name="configParams">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个params]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="param"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- 配置参数 -->
+    <xs:element name="param">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个param]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="desc" type="xs:string"/>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 脚本列表 -->
+    <xs:element name="scripts">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个params]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="script"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- 脚本   -->
+    <xs:element name="script">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个script。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="name" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[标识脚本，Spring环境下name可以为相应的bean名称]]></xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="type" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[script类型，例如QLExpress、OGNL等, 或者填写类全称限定名，Spring环境下可不填写该字段]]></xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 通用属性组 -->
+    <xs:attributeGroup name="commonAttributeGroup">
+        <xs:attribute name="ignoreException" type="xs:boolean" default="false"/>
+        <xs:attribute name="timeout" type="xs:int"/>
+    </xs:attributeGroup>
+
+    <!-- pipeline节点属性组 -->
+    <xs:attributeGroup name="pipelineAttributeGroup">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="desc" type="xs:string"/>
+        <xs:attribute name="async" type="xs:boolean" default="false"/>
+        <xs:attributeGroup ref="commonAttributeGroup"/>
+    </xs:attributeGroup>
+
+    <!-- 普通节点属性组 -->
+    <xs:attributeGroup name="nodeAttributeGroup">
+        <xs:attribute name="operator" type="xs:string" use="required"/>
+        <xs:attribute name="desc" type="xs:string"/>
+        <xs:attribute name="params" type="xs:string"/>
+        <xs:attributeGroup ref="commonAttributeGroup"/>
+    </xs:attributeGroup>
+
+    <xs:element name="pipeline">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个pipeline]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="pipeline"/>
+                    <xs:element ref="component"/>
+                    <xs:element ref="if"/>
+                    <xs:element ref="choose"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="pipelineAttributeGroup"/>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="component">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个节点。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attributeGroup ref="nodeAttributeGroup"/>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="if">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="then" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="else" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="test" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[条件判断对象]]></xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attributeGroup ref="commonAttributeGroup"/>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="then">
+        <xs:annotation>
+            <xs:documentation><![CDATA[必须与if结合使用。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="pipeline"/>
+                    <xs:element ref="component"/>
+                    <xs:element ref="if"/>
+                    <xs:element ref="choose"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="else">
+        <xs:annotation>
+            <xs:documentation><![CDATA[必须与if结合使用。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="pipeline"/>
+                    <xs:element ref="component"/>
+                    <xs:element ref="if"/>
+                    <xs:element ref="choose"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- choose -->
+    <xs:element name="choose">
+        <xs:annotation>
+            <xs:documentation><![CDATA[switch控制流]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="case" minOccurs="2" maxOccurs="unbounded"/>
+                <xs:element ref="default" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="test" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[条件判断对象]]></xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attributeGroup ref="commonAttributeGroup"/>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="case">
+        <xs:annotation>
+            <xs:documentation><![CDATA[必须与when结合使用。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence >
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="pipeline"/>
+                    <xs:element ref="component"/>
+                    <xs:element ref="if"/>
+                    <xs:element ref="choose"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="when" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[当值为指定值时，进入该分支。]]></xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="default">
+        <xs:annotation>
+            <xs:documentation><![CDATA[必须与when结合使用。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence >
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="pipeline"/>
+                    <xs:element ref="component"/>
+                    <xs:element ref="if"/>
+                    <xs:element ref="choose"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
