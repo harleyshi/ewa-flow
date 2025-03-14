@@ -21,6 +21,11 @@ public class SimpleComponent<C extends FlowCtx> extends Component<C> {
     private String desc;
 
     /**
+     * 组件参数
+     */
+    private Object param;
+
+    /**
      * 算子
      */
     private Operator<C, ?> operator;

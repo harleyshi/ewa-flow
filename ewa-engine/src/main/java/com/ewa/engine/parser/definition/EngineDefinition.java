@@ -5,6 +5,9 @@ import com.ewa.operator.common.enums.NodeType;
 import com.ewa.operator.utils.AssertUtil;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @author harley.shi
@@ -14,18 +17,28 @@ import lombok.Data;
 public class EngineDefinition extends NodeDefinition {
 
     /**
-     * 组件描述
+     * engine name
      */
     private String name;
 
     /**
-     * 算子
+     * engine description
      */
-    private String pipeline;
+    private String desc;
+
+    /**
+     * pipelines
+     */
+    private List<NodeDefinition> nodes = new ArrayList<>();
 
     @Override
     public void validate() {
-        AssertUtil.notBlank(pipeline, String.format("%s engine [pipeline] cannot be null", pipeline));
+        AssertUtil.notNull(name, String.format("%s engine [name] cannot be empty", name));
+        AssertUtil.notEmpty(nodes, String.format("%s engine [nodes] cannot be empty", nodes));
+    }
+
+    public void addNode(NodeDefinition node) {
+        nodes.add(node);
     }
 
     @Override

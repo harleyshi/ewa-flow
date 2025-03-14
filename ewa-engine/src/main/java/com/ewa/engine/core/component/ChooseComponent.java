@@ -21,7 +21,7 @@ public class ChooseComponent<C extends FlowCtx> extends Component<C> {
 
     private Operator<C, ?> condition;
 
-    private Map<Object, List<Component<C>>> branches;
+    private Map<String, List<Component<C>>> branches;
 
     private List<Component<C>> defaultBranch;
 
@@ -32,9 +32,14 @@ public class ChooseComponent<C extends FlowCtx> extends Component<C> {
     @Override
     public void doExecute(C ctx) {
         Object branch = condition.execute(ctx);
+        if(branch == null){
+            Invoker.invoke(ctx, defaultBranch);
+            return;
+        }
         List<Component<C>> components = null;
-        if (branch != null && branches.containsKey(branch)) {
-            components = branches.get(branch);
+        String branchStr = branch.toString();
+        if (branches.containsKey(branchStr)) {
+            components = branches.get(branchStr);
         } else if (defaultBranch != null) {
             components = defaultBranch;
         }

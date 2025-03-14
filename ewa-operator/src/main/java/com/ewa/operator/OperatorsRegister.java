@@ -31,6 +31,10 @@ public class OperatorsRegister {
         this.operatorMap.put(operatorDef.getName(), operatorDef);
     }
 
+    public <C extends FlowCtx, O> OperatorDef<?, ?> getOperatorDef(String name) {
+        return this.operatorMap.get(name);
+    }
+
     @SuppressWarnings("unchecked")
     public <C extends FlowCtx, O> Operator<C, O> getOperator(String name) {
         OperatorDef<C, O> operatorDef = (OperatorDef<C, O>) this.operatorMap.get(name);

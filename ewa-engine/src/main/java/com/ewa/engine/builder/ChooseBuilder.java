@@ -22,14 +22,14 @@ public class ChooseBuilder<C extends FlowCtx> implements Builder<C> {
 
     private final String name;
     private Operator<C, ?> condition;
-    private final Map<Object, List<Component<C>>> branches = new ConcurrentHashMap<>();
+    private final Map<String, List<Component<C>>> branches = new ConcurrentHashMap<>();
     private List<Component<C>> defaultBranch = new ArrayList<>();
 
     public ChooseBuilder(String name) {
         this.name = name;
     }
 
-    void addBranch(Object when, Component<C> branch) {
+    void addBranch(String when, Component<C> branch) {
         List<Component<C>> brancheList = branches.computeIfAbsent(when, k -> new ArrayList<>());
         brancheList.add(branch);
     }
@@ -43,7 +43,7 @@ public class ChooseBuilder<C extends FlowCtx> implements Builder<C> {
     /**
      * Create a new branch in choose.
      */
-    public CaseBuilder<C> when(Object branch) {
+    public CaseBuilder<C> when(String branch) {
         AssertUtil.notNull(condition, "You must invoke test method first!");
         AssertUtil.notNull(branch, "branch must not be null");
         AssertUtil.isFalse(branches.containsKey(branch), "duplicated branch");

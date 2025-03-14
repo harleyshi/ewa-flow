@@ -5,6 +5,7 @@ import com.ewa.operator.common.enums.NodeType;
 import org.dom4j.Element;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.ewa.operator.common.constants.NodeAttrConstants.*;
 
@@ -15,10 +16,18 @@ import static com.ewa.operator.common.constants.NodeAttrConstants.*;
  */
 public class XmlElementParser implements EngineParser {
 
+    private final AtomicInteger idGenerator;
+
+    public XmlElementParser() {
+        idGenerator = new AtomicInteger(1);
+    }
+
     @Override
     public NodeDefinition parse(Element element) {
         NodeType nodeType = NodeType.getByCode(element.getName());
         switch (Objects.requireNonNull(nodeType)) {
+            case ENGINE:
+                return parseEngine(element);
             case PIPELINE:
                 return parsePipeline(element);
             case IF:
@@ -32,10 +41,25 @@ public class XmlElementParser implements EngineParser {
         }
     }
 
+    private NodeDefinition parseEngine(Element engineElement) {
+        // parse engine
+        String name = engineElement.attributeValue(NAME);
+        String desc = engineElement.attributeValue(DESC);
+        EngineDefinition engineDef = new EngineDefinition();
+        engineDef.setName(name);
+        engineDef.setDesc(desc);
+        List<Element> children = engineElement.elements();
+        for (Element child : children) {
+            engineDef.addNode(parse(child));
+        }
+        return engineDef;
+    }
+
     private NodeDefinition parseComponent(Element element) {
         ComponentDefinition component = new ComponentDefinition();
+        component.setId(idGenerator.getAndIncrement());
         // 正常流程算子
-        String operator = element.attributeValue(OPERATOR);
+        String operator = element.attributeValue(EXECUTE);
         // 正常算子参数
         String operatorParamsKey = element.attributeValue(PARAMS);
         // 用于回滚的算子信息
@@ -58,6 +82,7 @@ public class XmlElementParser implements EngineParser {
 
     private NodeDefinition parsePipeline(Element element) {
         PipelineDefinition pipeline = new PipelineDefinition();
+        pipeline.setId(idGenerator.getAndIncrement());
         List<Element> children = element.elements();
         for (Element child : children) {
             pipeline.addChild(parse(child));
@@ -82,6 +107,7 @@ public class XmlElementParser implements EngineParser {
 
     private NodeDefinition parseIf(Element element) {
         IfDefinition ifDefinition = new IfDefinition();
+        ifDefinition.setId(idGenerator.getAndIncrement());
         String test = element.attributeValue(TEST);
         ifDefinition.setTest(test);
 
@@ -105,6 +131,7 @@ public class XmlElementParser implements EngineParser {
 
     private NodeDefinition parseChoose(Element element) {
         ChooseDefinition choose = new ChooseDefinition();
+        choose.setId(idGenerator.getAndIncrement());
         String test = element.attributeValue(TEST);
         choose.setTest(test);
         // 处理默认分支

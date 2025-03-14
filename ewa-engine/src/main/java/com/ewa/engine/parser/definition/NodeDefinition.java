@@ -11,6 +11,16 @@ import com.ewa.operator.common.enums.NodeType;
 public abstract class NodeDefinition implements Validator {
     protected volatile boolean visitCalled = false;
 
+    protected Integer id;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer id(){
+        return this.id;
+    }
+
     public abstract String name();
 
     public abstract NodeType nodeType();

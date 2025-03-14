@@ -1,5 +1,6 @@
 package com.ewa.engine.core;
 
+import com.ewa.engine.core.component.Component;
 import com.ewa.operator.ctx.FlowCtx;
 import com.ewa.engine.core.component.PipelineComponent;
 import com.ewa.operator.node.Operator;
@@ -7,6 +8,8 @@ import com.ewa.operator.utils.AssertUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 
@@ -20,18 +23,20 @@ public class EngineExecutor<C extends FlowCtx> {
     @Getter
     private final String name;
 
-    private final PipelineComponent<C> pipelineComponent;
+    private final List<Component<C>> components;
 
-    public EngineExecutor(String name, PipelineComponent<C> pipelineComponent) {
+    public EngineExecutor(String name, List<Component<C>> components) {
         this.name = name;
-        this.pipelineComponent = pipelineComponent;
+        this.components = components;
     }
 
     public void execute(C context){
         AssertUtil.notNull(context, "context must not be null!");
         try{
             // 执行正常流程
-            pipelineComponent.execute(context);
+            for (Component<C> component : components) {
+                component.execute(context);
+            }
         }catch (Exception e){
             // 有异常：执行回滚逻辑
             if(context.hasException()){

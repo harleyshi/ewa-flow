@@ -10,7 +10,6 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="engine" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="pipeline" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="configParams" minOccurs="0" maxOccurs="1"/>
                 <xs:element ref="scripts" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
@@ -22,8 +21,14 @@
             <xs:documentation><![CDATA[定义一个engine]]></xs:documentation>
         </xs:annotation>
         <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="pipeline"/>
+                <xs:element ref="component"/>
+                <xs:element ref="if"/>
+                <xs:element ref="choose"/>
+            </xs:choice>
             <xs:attribute name="name" type="xs:string" use="required"/>
-            <xs:attribute name="pipeline" type="xs:string" use="required"/>
+            <xs:attribute name="desc" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 
@@ -101,7 +106,7 @@
 
     <!-- 普通节点属性组 -->
     <xs:attributeGroup name="nodeAttributeGroup">
-        <xs:attribute name="operator" type="xs:string" use="required"/>
+        <xs:attribute name="execute" type="xs:string" use="required"/>
         <xs:attribute name="desc" type="xs:string"/>
         <xs:attribute name="params" type="xs:string"/>
         <xs:attributeGroup ref="commonAttributeGroup"/>

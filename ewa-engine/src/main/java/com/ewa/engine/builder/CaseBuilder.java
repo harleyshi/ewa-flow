@@ -17,11 +17,11 @@ public class CaseBuilder<C extends FlowCtx> {
     /**
      * Case condition.
      */
-    private final Object when;
+    private final String when;
 
     private final ChooseBuilder<C> chooseBuilder;
 
-    CaseBuilder(ChooseBuilder<C> chooseBuilder, Object when) {
+    CaseBuilder(ChooseBuilder<C> chooseBuilder, String when) {
         this.when = when;
         this.chooseBuilder = chooseBuilder;
     }

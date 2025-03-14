@@ -2,9 +2,13 @@ package com.ewa.engine.builder;
 
 
 import com.ewa.engine.core.EngineExecutor;
+import com.ewa.engine.core.component.Component;
 import com.ewa.engine.core.component.PipelineComponent;
 import com.ewa.operator.utils.AssertUtil;
 import com.ewa.operator.ctx.FlowCtx;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 引擎构造器
@@ -14,30 +18,41 @@ import com.ewa.operator.ctx.FlowCtx;
 public class EngineBuilder<C extends FlowCtx> {
 
     /**
-     * 引擎名称
+     * engine name
      */
     private String name;
 
     /**
-     * 流程组件
+     * engine description
      */
-    private PipelineComponent<C> pipelineComponent;
+    private String desc;
 
-    public EngineBuilder<C> pipeline(PipelineComponent<C> pipeline) {
-        AssertUtil.notNull(pipeline, "pipeline must not be null");
-        this.pipelineComponent = pipeline;
+    /**
+     * engine components
+     */
+    private List<Component<C>> components = new ArrayList<>();
+
+    public EngineBuilder<C> component(Component<C> component) {
+        AssertUtil.notNull(component, "component must not be null");
+        this.components.add(component);
         return this;
     }
 
     public EngineBuilder<C> name(String name) {
-        AssertUtil.notBlank(name, "name must not be null");
+        AssertUtil.notBlank(name, "name must not be blank");
         this.name = name;
+        return this;
+    }
+
+    public EngineBuilder<C> desc(String desc) {
+        AssertUtil.notBlank(desc, "desc must not be blank");
+        this.desc = desc;
         return this;
     }
 
     public EngineExecutor<C> build() {
         AssertUtil.notBlank(name, "name must not be null");
-        AssertUtil.notNull(pipelineComponent, "pipeline must not be null");
-        return new EngineExecutor<>(name, pipelineComponent);
+        AssertUtil.notEmpty(components, "pipeline must not be null");
+        return new EngineExecutor<>(name, components);
     }
 }

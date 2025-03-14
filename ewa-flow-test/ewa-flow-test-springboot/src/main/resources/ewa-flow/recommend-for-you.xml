@@ -1,73 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <engines xmlns="http://www.w3school.com.cn"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.w3school.com.cn ewa-flow.xsd">
-    <engine name="recommend-for-you" pipeline="rec_for_you_pipeline"/>
-
-    <pipeline name="rec_for_you_pipeline" desc="recommend for you 推荐流程">
-        <pipeline name="recall" desc="召回" async="true">
-            <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>
-            <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>
-            <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>
-        </pipeline>
-
-        <component operator="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并"/>
-        <component operator="com.ewa.test.springboot.operator.CtrRankNode" desc="点击率排序"/>
-        <component operator="com.ewa.test.springboot.operator.TopReRankNode" desc="运营干预"/>
-<!--        <if test="com.ewa.test.springboot.operator.TopReRankNode">-->
-<!--            <then>-->
-<!--                <component operator="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
-<!--                <pipeline name="recall" desc="召回">-->
-<!--                    <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--                </pipeline>-->
-<!--            </then>-->
-<!--            <else>-->
-<!--                <component operator="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
-<!--                <pipeline name="recall" desc="召回">-->
-<!--                    <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--                </pipeline>-->
-<!--            </else>-->
-<!--        </if>-->
-<!--        <choose test="com.ewa.test.springboot.operator.HotRecallNode">-->
-<!--            <case when="1">-->
-<!--                <component operator="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
-<!--                <pipeline name="recall" desc="召回">-->
-<!--                    <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--                </pipeline>-->
-<!--            </case>-->
-<!--            <case when="2">-->
-<!--                <component operator="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
-<!--                <pipeline name="recall" desc="召回">-->
-<!--                    <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--                </pipeline>-->
-<!--            </case>-->
-<!--            <default>-->
-<!--                <component operator="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
-<!--                <pipeline name="recall" desc="召回">-->
-<!--                    <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--                    <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--                </pipeline>-->
-<!--            </default>-->
-<!--        </choose>-->
-<!--        <pipeline name="fill_attr_pipeline" desc="属性填充">-->
-<!--            <component operator="com.ewa.test.springboot.operator.CtrRankNode"/>-->
-<!--            <component operator="com.ewa.test.springboot.operator.TopReRankNode"/>-->
-<!--            <pipeline name="recall" desc="召回">-->
-<!--                <component operator="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--                <component operator="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--                <component operator="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--            </pipeline>-->
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.w3school.com.cn ewa-flow.xsd">
+    <engine name="recommend-for-you"  desc="recommend for you 推荐流程">
+<!--        <pipeline name="recall" desc="召回" async="true">-->
+<!--            <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+<!--            <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+<!--            <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
 <!--        </pipeline>-->
-    </pipeline>
+        <choose test="com.ewa.test.springboot.operator.SwitchNode">
+            <case when="1">
+                <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>
+            </case>
+            <case when="2">
+                <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>
+            </case>
+            <default>
+                <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>
+            </default>
+        </choose>
+        <component execute="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并" params="paramsCheck"/>
+        <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="点击率排序"/>
+        <if test="com.ewa.test.springboot.operator.CheckTopNode" desc="是否需要运营干预">
+            <then>
+                <component execute="com.ewa.test.springboot.operator.TopReRankNode" desc="运营干预"/>
+            </then>
+            <else>
+                <component execute="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并"/>
+            </else>
+        </if>
+
+    </engine>
+
 
     <configParams>
         <param name="paramsCheck">
@@ -99,4 +63,70 @@
             return true;
         </script>
     </scripts>
+
+
+    <!--    <pipeline name="rec_for_you_pipeline">-->
+    <!--        <pipeline name="recall" desc="召回" async="true">-->
+    <!--            <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--            <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--            <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--        </pipeline>-->
+
+    <!--        <component execute="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并"/>-->
+    <!--        <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="点击率排序"/>-->
+    <!--        <component execute="com.ewa.test.springboot.operator.TopReRankNode" desc="运营干预"/>-->
+    <!--        <if test="com.ewa.test.springboot.operator.TopReRankNode">-->
+    <!--            <then>-->
+    <!--                <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
+    <!--                <pipeline name="recall" desc="召回">-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--                </pipeline>-->
+    <!--            </then>-->
+    <!--            <else>-->
+    <!--                <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
+    <!--                <pipeline name="recall" desc="召回">-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--                </pipeline>-->
+    <!--            </else>-->
+    <!--        </if>-->
+    <!--        <choose test="com.ewa.test.springboot.operator.HotRecallNode">-->
+    <!--            <case when="1">-->
+    <!--                <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
+    <!--                <pipeline name="recall" desc="召回">-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--                </pipeline>-->
+    <!--            </case>-->
+    <!--            <case when="2">-->
+    <!--                <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
+    <!--                <pipeline name="recall" desc="召回">-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--                </pipeline>-->
+    <!--            </case>-->
+    <!--            <default>-->
+    <!--                <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="移除购物车选中的商品"/>-->
+    <!--                <pipeline name="recall" desc="召回">-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--                    <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--                </pipeline>-->
+    <!--            </default>-->
+    <!--        </choose>-->
+    <!--        <pipeline name="fill_attr_pipeline" desc="属性填充">-->
+    <!--            <component execute="com.ewa.test.springboot.operator.CtrRankNode"/>-->
+    <!--            <component execute="com.ewa.test.springboot.operator.TopReRankNode"/>-->
+    <!--            <pipeline name="recall" desc="召回">-->
+    <!--                <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
+    <!--                <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
+    <!--                <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
+    <!--            </pipeline>-->
+    <!--        </pipeline>-->
+    <!--    </pipeline>-->
 </engines>

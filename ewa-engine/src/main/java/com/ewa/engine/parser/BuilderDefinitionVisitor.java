@@ -1,11 +1,13 @@
 package com.ewa.engine.parser;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.ewa.engine.builder.*;
 import com.ewa.engine.core.EngineExecutor;
 import com.ewa.engine.core.component.*;
 import com.ewa.engine.parser.definition.*;
 import com.ewa.engine.script.ScriptExecutor;
+import com.ewa.operator.OperatorDef;
 import com.ewa.operator.OperatorsRegister;
 import com.ewa.operator.ctx.FlowCtx;
 import com.ewa.operator.node.Operator;
@@ -35,7 +37,6 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
 
     @Override
     public void visit(EnginesDefinition definition) {
-        List<PipelineDefinition> pipelinesDef = definition.getPipelines();
         List<ScriptDefinition> scripts = definition.getScripts();
         List<ParamsDefinition> configParams = definition.getConfigParams();
         EngineDefinition engineDefinition = definition.getEngine();
@@ -43,17 +44,16 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
 
 //        scripts.forEach(def -> def.visit(this));
         configParams.forEach(def -> def.visit(this));
-        pipelinesDef.forEach(def -> def.visit(this));
         engineDefinition.visit(this);
     }
 
     @Override
     public void visit(EngineDefinition definition) {
         String engineName = definition.getName();
-        PipelineComponent<C> pipelineComponent = namedPipelines.get(definition.getPipeline());
-
+        String desc = definition.getDesc();
         engineBuilder = Builders.engine(engineName);
-        engineBuilder.pipeline(pipelineComponent);
+        engineBuilder.desc(desc);
+        processChildren(definition.getNodes()).forEach(engineBuilder::component);
     }
 
     @Override
@@ -109,13 +109,17 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
         if(StringUtils.isNotBlank(paramsKey)){
             paramsValue = paramsMap.get(paramsKey);
         }
-        Operator<C, ?> operator = operatorsRegister.getOperator(opName);
+        OperatorDef<?, ?> operator = operatorsRegister.getOperatorDef(opName);
 
         SimpleComponent<C> component = new SimpleComponent<>(opName);
-        component.setOperator(operator);
+        component.setOperator((Operator<C, ?>) operator.getOperator());
         component.setDesc(definition.getDesc());
         component.setTimeout(definition.getTimeout());
         component.setIgnoreException(definition.isIgnoreException());
+        if(StringUtils.isNotBlank(paramsValue)){
+            Object nodeParam = JSONObject.parseObject(paramsValue, operator.getNodeParam());
+            component.setParam(nodeParam);
+        }
         namedComponents.put(definition.name(), component);
     }
 

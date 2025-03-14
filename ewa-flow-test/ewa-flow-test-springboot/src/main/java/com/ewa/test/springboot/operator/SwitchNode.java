@@ -1,0 +1,21 @@
+package com.ewa.test.springboot.operator;
+
+import com.ewa.operator.ComponentFn;
+import com.ewa.operator.node.ConditionOperator;
+import com.ewa.test.springboot.context.OrderContext;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author harley.shi
+ * @date 2025/1/20
+ */
+@Service
+@ComponentFn
+public class SwitchNode extends ConditionOperator<OrderContext, Integer> {
+
+    @Override
+    public Integer doExecute(OrderContext ctx) {
+        System.out.println(String.format("[%s]switch_node execute", Thread.currentThread().getName()));
+        return 1;
+    }
+}

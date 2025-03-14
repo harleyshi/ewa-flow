@@ -10,7 +10,7 @@ public interface NodeAttrConstants {
      * Attributes;
      */
     String NAME = "name";
-    String OPERATOR = "operator";
+    String EXECUTE = "execute";
     String DESC = "desc";
     String TEST = "test";
     String THEN = "then";

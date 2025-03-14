@@ -40,7 +40,8 @@ public class OperatorBeanPostProcessor implements BeanPostProcessor {
         }else{
             operatorType = OpsType.STANDARD;
         }
-        operatorsRegister.register(new OperatorDef<>(operatorName, operatorType, operator));
+        Class<?> nodeParam = componentFn.paramType();
+        operatorsRegister.register(new OperatorDef<>(operatorName, nodeParam, operatorType, operator));
         return bean;
     }
 }

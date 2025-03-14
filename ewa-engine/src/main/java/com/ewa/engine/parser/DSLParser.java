@@ -21,32 +21,19 @@ import static com.ewa.operator.common.constants.NodeAttrConstants.*;
  * @date 2025/3/11
  */
 public class DSLParser {
-    protected final EngineParser xmlParser = new XmlElementParser();
 
     public EngineExecutor<FlowCtx> parseEngine(String xmlContent) throws Exception {
         SAXReader saxReader = new SAXReader();
         StringReader reader = new StringReader(xmlContent);
         Document document = saxReader.read(reader);
         Element rootElement = document.getRootElement();
-
-        EnginesDefinition enginesDef = new EnginesDefinition();
-        // parse engine
-        List<Element> engineElements = rootElement.elements(NodeType.ENGINE.getCode());
-        for (Element engineElement : engineElements) {
-            String name = engineElement.attributeValue(NAME);
-            String pipelineName = engineElement.attributeValue(NodeType.PIPELINE.getCode());
-            EngineDefinition engineDefinition = new EngineDefinition();
-            engineDefinition.setName(name);
-            engineDefinition.setPipeline(pipelineName);
-            enginesDef.engine(engineDefinition);
-        }
+        EngineParser xmlParser = new XmlElementParser();
 
         // parse pipeline
-        List<Element> pipelineElements = rootElement.elements(NodeType.PIPELINE.getCode());
-        for (Element pipelineElement : pipelineElements) {
-            NodeDefinition nodeDefinition = xmlParser.parse(pipelineElement);
-            enginesDef.addPipeline((PipelineDefinition) nodeDefinition);
-        }
+        EnginesDefinition enginesDef = new EnginesDefinition();
+        Element engineElement = rootElement.element(NodeType.ENGINE.getCode());
+        EngineDefinition engineDef = (EngineDefinition) xmlParser.parse(engineElement);
+        enginesDef.engine(engineDef);
 
         // parse config params
         Element parmasElement = rootElement.element(NodeType.CONFIG_PARAMS.getCode());

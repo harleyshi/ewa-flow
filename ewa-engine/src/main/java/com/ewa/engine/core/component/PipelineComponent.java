@@ -48,7 +48,7 @@ public class PipelineComponent<C extends FlowCtx> extends Component<C> {
             Executor executor = Parallel.getExecutor(ThreadPool.Names.KERNEL);
             List<CompletableFuture<Void>> futures = new ArrayList<>();
             for (Component<C> component : pipeline) {
-                futures.add(CompletableFuture.runAsync(()-> Invoker.invoke(context, component), executor));
+                futures.add(CompletableFuture.runAsync(()-> component.execute(context), executor));
             }
             CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
         }else{
