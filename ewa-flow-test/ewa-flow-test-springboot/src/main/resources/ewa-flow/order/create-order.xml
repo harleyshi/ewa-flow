@@ -5,6 +5,6 @@
     <engine name="createOrder" desc="创建订单流程">
         <component execute="com.ewa.test.springboot.operator.order.LockCouponNode" desc="锁定优惠券"/>
         <component execute="com.ewa.test.springboot.operator.order.LockStockNode" desc="锁定库存"/>
-        <component execute="com.ewa.test.springboot.operator.order.CreateOrderNode" desc="锁定优惠券"/>
+        <component execute="com.ewa.test.springboot.operator.order.CreateOrderNode" desc="创建订单" ignoreException="true"/>
     </engine>
 </engines>

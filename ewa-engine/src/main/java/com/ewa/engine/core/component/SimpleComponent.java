@@ -25,6 +25,11 @@ public class SimpleComponent<C extends FlowCtx> extends Component<C> {
      */
     private Operator<C, ?> operator;
 
+    /**
+     * ignore exception
+     */
+    private boolean ignoreException = false;
+
     public SimpleComponent(String name) {
         super(name);
     }
@@ -36,6 +41,17 @@ public class SimpleComponent<C extends FlowCtx> extends Component<C> {
 
     @Override
     public void doExecute(C ctx) {
-        operator.execute(ctx);
+        try {
+            operator.execute(ctx);
+        } catch (Throwable ex) {
+            // 忽略异常：直接返回空结果
+            if(isIgnoreException()){
+                // 如果节点设置忽略异常的话，当节点发送异常时直接忽略
+                log.error("[{}] operator execute error, but ignore it. error message: {}", getName(), ex.getMessage());
+                return;
+            }
+            ctx.setHasException(true);
+            throw ex;
+        }
     }
 }

@@ -25,11 +25,6 @@ public abstract class Component<C extends FlowCtx> {
      */
     private Integer timeout;
 
-    /**
-     * ignore exception
-     */
-    private boolean ignoreException = false;
-
     public Component(String name) {
         this.name = name;
     }
@@ -39,18 +34,7 @@ public abstract class Component<C extends FlowCtx> {
         if(context.hasException()){
             return;
         }
-        try {
-            doExecute(context);
-        } catch (Throwable ex) {
-            // 忽略异常：直接返回空结果
-            if(isIgnoreException()){
-                // 如果节点设置忽略异常的话，当节点发送异常时直接忽略
-                log.error("[{}] operator execute error, but ignore it. error message: {}", getName(), ex.getMessage());
-                return;
-            }
-            context.setHasException(true);
-            throw ex;
-        }
+        doExecute(context);
     }
 
     /**
