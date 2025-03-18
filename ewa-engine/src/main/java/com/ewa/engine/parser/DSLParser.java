@@ -12,6 +12,7 @@ import org.dom4j.io.SAXReader;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.ewa.operator.common.constants.NodeAttrConstants.*;
@@ -56,6 +57,9 @@ public class DSLParser {
      * parse params
      */
     private List<ParamsDefinition> parseParams(Element element) {
+        if(element == null){
+            return Collections.emptyList();
+        }
         List<Element> children = element.elements();
         List<ParamsDefinition> paramsList = new ArrayList<>();
         for (Element child : children) {
@@ -75,6 +79,9 @@ public class DSLParser {
      * parse script
      */
     private List<ScriptDefinition> parseScript(Element element) {
+        if(element == null){
+            return Collections.emptyList();
+        }
         List<Element> children = element.elements();
         List<ScriptDefinition> scriptList = new ArrayList<>();
         for (Element child : children) {

@@ -1,4 +1,4 @@
-package com.ewa.test.springboot.operator;
+package com.ewa.test.springboot.operator.rec;
 
 import com.ewa.operator.ComponentFn;
 import com.ewa.operator.core.FallbackOperator;

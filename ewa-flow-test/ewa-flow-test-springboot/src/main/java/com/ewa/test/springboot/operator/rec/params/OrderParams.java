@@ -1,4 +1,4 @@
-package com.ewa.test.springboot.operator.params;
+package com.ewa.test.springboot.operator.rec.params;
 
 import lombok.Data;
 

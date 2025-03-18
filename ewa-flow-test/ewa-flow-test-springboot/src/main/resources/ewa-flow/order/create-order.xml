@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engines xmlns="http://www.w3school.com.cn"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.w3school.com.cn ewa-flow.xsd">
+    <engine name="createOrder" desc="创建订单流程">
+        <component execute="com.ewa.test.springboot.operator.order.LockCouponNode" desc="锁定优惠券"/>
+        <component execute="com.ewa.test.springboot.operator.order.LockStockNode" desc="锁定库存"/>
+        <component execute="com.ewa.test.springboot.operator.order.CreateOrderNode" desc="锁定优惠券"/>
+    </engine>
+</engines>

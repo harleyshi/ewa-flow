@@ -36,7 +36,7 @@ public class ClassPathXmlEngineManager extends AbstractEngineManager {
                 byte[] bytes = FileCopyUtils.copyToByteArray(inputStream);
                 EngineExecutor<FlowCtx> executor = parseEngine(new String(bytes, StandardCharsets.UTF_8));
                 if(engineRegister.contains(executor.getName())){
-                    throw new EwaFlowException(String.format("already contains engine[%s]", executor.getName()));
+                    throw new EwaFlowException(String.format("already contains engine [%s]", executor.getName()));
                 }
                 engineRegister.register(executor);
             }catch (Exception e){

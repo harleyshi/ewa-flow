@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engines xmlns="http://www.w3school.com.cn"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.w3school.com.cn ewa-flow.xsd">
+    <engine name="branch-flow"  desc="recommend for you 推荐流程">
+        <pipeline name="recall" desc="召回" async="true">
+            <component execute="com.ewa.test.springboot.operator.rec.HotRecallNode" desc="热度召回"/>
+            <component execute="com.ewa.test.springboot.operator.rec.I2iRecallNode" desc="i2i召回"/>
+            <component execute="com.ewa.test.springboot.operator.rec.UserCFRecallNode" desc="用户协同召回"/>
+        </pipeline>
+        <choose test="com.ewa.test.springboot.operator.rec.SwitchNode">
+            <case when="1">
+                <component execute="com.ewa.test.springboot.operator.rec.HotRecallNode" desc="热度召回"/>
+            </case>
+            <case when="2">
+                <component execute="com.ewa.test.springboot.operator.rec.I2iRecallNode" desc="i2i召回"/>
+            </case>
+            <default>
+                <component execute="com.ewa.test.springboot.operator.rec.UserCFRecallNode" desc="用户协同召回"/>
+            </default>
+        </choose>
+        <component execute="com.ewa.test.springboot.operator.rec.MergeRecallNode" desc="召回结果合并" params="orderParams"/>
+        <component execute="com.ewa.test.springboot.operator.rec.CtrRankNode" desc="点击率排序"/>
+        <if test="scriptTest" desc="是否需要运营干预">
+            <then>
+                <component execute="com.ewa.test.springboot.operator.rec.TopReRankNode" desc="运营干预"/>
+            </then>
+            <else>
+                <component execute="com.ewa.test.springboot.operator.rec.MergeRecallNode" desc="召回结果合并"/>
+            </else>
+        </if>
+    </engine>
+
+
+    <configParams>
+        <param name="orderParams">
+            {
+            "orderId": "123456789"
+            }
+        </param>
+    </configParams>
+
+    <scripts>
+        <script name="scriptTest" type="groovy">
+            System.out.println("invoke scriptTest");
+            int a = 1;
+            int b = 12;
+            boolean result = "123456".equals(ctx.orderId);
+            return true;
+        </script>
+    </scripts>
+
+</engines>

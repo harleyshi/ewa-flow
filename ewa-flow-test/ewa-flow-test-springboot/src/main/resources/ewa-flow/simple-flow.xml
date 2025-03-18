@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engines xmlns="http://www.w3school.com.cn"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.w3school.com.cn ewa-flow.xsd">
+    <engine name="simple"  desc="recommend for you 推荐流程">
+        <component execute="com.ewa.test.springboot.operator.rec.MergeRecallNode" desc="召回结果合并" params="orderParams"/>
+        <scriptComponent ref="scriptTest" desc="点击率排序"/>
+    </engine>
+
+
+    <configParams>
+        <param name="orderParams">
+            {
+            "orderId": "123456789"
+            }
+        </param>
+    </configParams>
+
+    <scripts>
+        <script name="scriptTest" type="groovy">
+            System.out.println("invoke scriptTest");
+            int a = 1;
+            int b = 12;
+            boolean result = "123456".equals(ctx.orderId);
+            return true;
+        </script>
+    </scripts>
+</engines>
