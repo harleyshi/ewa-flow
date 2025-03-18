@@ -28,11 +28,17 @@ import java.util.Set;
 public class OperatorsScanner {
     private final OperatorsRegister operatorsRegister = OperatorsRegister.getInstance();
 
+    private String[] packagePaths;
+
+    public void setPackagePaths(String[] packagePaths) {
+        this.packagePaths = packagePaths;
+    }
+
     /**
      * scan all operators and register to OperatorsRegister
      */
     @SuppressWarnings("unchecked")
-    public void scannerOperators(String... packagePaths) {
+    public void scannerOperators() {
         Collection<URL> urls = new HashSet<>();
         for (String packagePath : packagePaths) {
             urls.addAll(ClasspathHelper.forPackage(packagePath));

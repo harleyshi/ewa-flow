@@ -7,6 +7,7 @@ import com.ewa.engine.core.EngineManager;
 import com.ewa.engine.core.MySQLEngineManager;
 import com.ewa.engine.loader.EngineLoader;
 import com.ewa.engine.loader.MySQLEngineLoader;
+import com.ewa.operator.OperatorsScanner;
 import com.ewa.operator.core.factory.generate.SpringOperatorGenerate;
 import com.ewa.operator.utils.AssertUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -76,8 +77,8 @@ public class EwaEngineAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public EwaEngineSpringInitializer ewaEngineSpringInitializer(EngineManager engineManager) {
-        return new EwaEngineSpringInitializer(engineManager);
+    public EwaEngineSpringInitializer ewaEngineSpringInitializer(EngineManager engineManager, OperatorsScanner operatorsScanner) {
+        return new EwaEngineSpringInitializer(engineManager, operatorsScanner);
     }
 
     @Bean

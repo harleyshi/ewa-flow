@@ -12,15 +12,17 @@ public class EwaEngineSpringInitializer implements SmartInitializingSingleton{
 
     private final EngineManager engineManager;
 
-    public EwaEngineSpringInitializer(EngineManager engineManager) {
+    private final OperatorsScanner operatorsScanner;
+
+    public EwaEngineSpringInitializer(EngineManager engineManager, OperatorsScanner operatorsScanner) {
         this.engineManager = engineManager;
+        this.operatorsScanner = operatorsScanner;
     }
 
     @Override
     public void afterSingletonsInstantiated() {
-        OperatorsScanner operatorsScanner = new OperatorsScanner();
-        // TODO 包方外面传进来
-        operatorsScanner.scannerOperators("com.ewa.test.springboot.operator");
+        // scan operators
+        operatorsScanner.scannerOperators();
         // init engine
         engineManager.load();
     }
