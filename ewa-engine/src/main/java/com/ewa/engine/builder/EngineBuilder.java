@@ -1,7 +1,7 @@
 package com.ewa.engine.builder;
 
 
-import com.ewa.engine.core.EngineExecutor;
+import com.ewa.engine.core.executor.EngineExecutor;
 import com.ewa.engine.core.component.Component;
 import com.ewa.operator.utils.AssertUtil;
 import com.ewa.operator.core.context.FlowCtx;

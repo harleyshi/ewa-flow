@@ -25,11 +25,6 @@ public class SimpleComponent<C extends FlowCtx> extends Component<C> {
      */
     private Operator<C, ?> operator;
 
-    /**
-     * rollback operator
-     */
-    private Operator<C, ?> rollback;
-
     public SimpleComponent(String name) {
         super(name);
     }
@@ -40,14 +35,7 @@ public class SimpleComponent<C extends FlowCtx> extends Component<C> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void doExecute(C ctx) {
-        try {
-            operator.execute(ctx);
-        }finally {
-            if(rollback != null){
-                ctx.addRollback((Operator<FlowCtx, ?>) rollback);
-            }
-        }
+        operator.execute(ctx);
     }
 }

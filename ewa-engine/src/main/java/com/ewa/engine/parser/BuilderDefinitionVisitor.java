@@ -2,7 +2,7 @@ package com.ewa.engine.parser;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ewa.engine.builder.*;
-import com.ewa.engine.core.EngineExecutor;
+import com.ewa.engine.core.executor.EngineExecutor;
 import com.ewa.engine.core.component.*;
 import com.ewa.engine.parser.definition.*;
 import com.ewa.engine.script.ScriptExecutor;
@@ -126,8 +126,7 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
         }else{
             operator = builderOperator(opName);
         }
-        SimpleComponent<C> component = new SimpleComponent<>(opName);
-        component.setOperator(operator);
+        SimpleComponent<C> component = new SimpleComponent<>(opName, operator);
         component.setDesc(definition.getDesc());
         component.setTimeout(definition.getTimeout());
         component.setIgnoreException(definition.isIgnoreException());
@@ -143,7 +142,7 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
             throw new EwaFlowException("script not found: " + ref);
         }
         Operator<C, ?> operator = new ScriptOperator<>(scriptExecutor);
-        SimpleComponent<C> component = new SimpleComponent<>(ref);
+        SimpleComponent<C> component = new SimpleComponent<>(ref, operator);
         component.setOperator(operator);
         component.setTimeout(definition.getTimeout());
         component.setIgnoreException(definition.isIgnoreException());

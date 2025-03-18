@@ -2,6 +2,7 @@ package com.ewa.engine.core.component;
 
 import com.ewa.operator.core.context.FlowCtx;
 import com.ewa.operator.core.Operator;
+import com.ewa.operator.exception.OperatorExecutionException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,7 @@ public class IfComponent<C extends FlowCtx> extends Component<C> {
             Invoker.invoke(ctx, elseComponent);
         }
         if(!(test instanceof Boolean)){
-            throw new RuntimeException(String.format("[%s] condition operator must return boolean value，but return [%s]",
-                    getName(), test.getClass().getName()));
+            throw new OperatorExecutionException(String.format("operator [%s] must return boolean, but returned [%s].", getName(), test.getClass().getName()));
         }
         if(test == Boolean.TRUE){
             Invoker.invoke(ctx, thenComponent);

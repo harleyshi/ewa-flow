@@ -11,6 +11,8 @@ import java.lang.annotation.*;
  * builder class responsible for creating the operator for this component.
  *
  * This annotation is retained at runtime and can be applied to types classes
+ * @author harley.shi
+ * @date 2024/7/20
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

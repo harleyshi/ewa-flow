@@ -56,7 +56,6 @@ public abstract class Component<C extends FlowCtx> {
     /**
      * 组件执行方法
      * @param context 上下文
-     * @return 是否成功
      */
     public abstract void doExecute(C context);
 }
