@@ -11,9 +11,8 @@ import java.util.List;
  * @author harley.shi
  * @date 2025/1/20
  */
-@Service
 @ComponentFn
-public class TopReRankNode extends AbstractOperator<OrderContext, Void> {
+public class TopReRankNode extends AbstractOperator<OrderContext> {
 
     @Override
     public void doExecute(OrderContext ctx) {

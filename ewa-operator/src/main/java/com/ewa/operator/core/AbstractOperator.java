@@ -6,12 +6,7 @@ import com.ewa.operator.core.context.FlowCtx;
  * @author harley.shi
  * @date 2025/1/13
  */
-public abstract class AbstractOperator<C extends FlowCtx, P> implements Operator<C, Void> {
-
-    /**
-     * node params
-     */
-    private P nodeParams;
+public abstract class AbstractOperator<C extends FlowCtx> implements Operator<C, Void> {
 
     @Override
     public Void execute(C ctx) {
@@ -24,10 +19,4 @@ public abstract class AbstractOperator<C extends FlowCtx, P> implements Operator
      */
     public abstract void doExecute(C ctx);
 
-    /**
-     * get operator node params
-     */
-    protected P getNodeParams() {
-        return this.nodeParams;
-    }
 }

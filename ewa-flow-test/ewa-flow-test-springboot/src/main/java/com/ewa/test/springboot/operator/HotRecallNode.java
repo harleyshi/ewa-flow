@@ -12,7 +12,6 @@ import java.util.List;
  * @author harley.shi
  * @date 2025/1/20
  */
-@Service
 @ComponentFn
 public class HotRecallNode extends FallbackOperator<OrderContext> {
 

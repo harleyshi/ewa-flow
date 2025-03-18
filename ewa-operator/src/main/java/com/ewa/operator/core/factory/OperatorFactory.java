@@ -8,6 +8,6 @@ public interface OperatorFactory {
 
     <T> T create(String className);
 
-    <T> T create(String className, Class<?> nodeParamType, String nodeParams);
+    <T> T create(String className, Class<?> nodeParamType, String paramsKey, String paramsValue);
 
 }

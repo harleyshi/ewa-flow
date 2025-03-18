@@ -12,9 +12,8 @@ import java.util.List;
  * @author harley.shi
  * @date 2025/1/20
  */
-@Service
 @ComponentFn
-public class UserCFRecallNode extends AbstractOperator<OrderContext, Void> {
+public class UserCFRecallNode extends AbstractOperator<OrderContext> {
     @Override
     public void doExecute(OrderContext ctx) {
         System.out.println(String.format("[%s]user_cf_recall execute", Thread.currentThread().getName()));

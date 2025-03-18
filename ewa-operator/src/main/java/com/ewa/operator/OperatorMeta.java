@@ -29,7 +29,11 @@ public class OperatorMeta {
         this.opsType = opsType;
     }
 
-    public <C extends FlowCtx> Operator<C, ?> builder(String params) {
-        return operatorFactory.create(operatorName, nodeParamType, params);
+    public <C extends FlowCtx> Operator<C, ?> builder() {
+        return operatorFactory.create(operatorName);
+    }
+
+    public <C extends FlowCtx> Operator<C, ?> builder(String paramsKey, String paramsValue) {
+        return operatorFactory.create(operatorName, nodeParamType, paramsKey, paramsValue);
     }
 }

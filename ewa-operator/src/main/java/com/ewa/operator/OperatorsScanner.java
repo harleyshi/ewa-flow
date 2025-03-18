@@ -74,7 +74,7 @@ public class OperatorsScanner {
                 }else{
                     operatorFactory = DefaultOperatorGenerate.getInstance();
                 }
-                Class<?> nodeParam = componentFn.paramType();
+                Class<?> nodeParam = componentFn.nodeParamsType();
                 OpsType operatorType = ConditionOperator.class.isAssignableFrom(targetClass) ? OpsType.CONDITION : OpsType.STANDARD;
                 operatorsRegister.register(new OperatorMeta(targetClass.getName(), operatorFactory, nodeParam, operatorType));
             } catch (Exception e) {

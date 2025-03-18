@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
  * @author harley.shi
  * @date 2025/1/20
  */
-@Service
 @ComponentFn
 public class SwitchNode extends ConditionOperator<OrderContext, Integer> {
 

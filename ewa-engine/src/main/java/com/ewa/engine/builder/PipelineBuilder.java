@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * pipeline构造器
+ * pipeline builder
  * @author harley.shi
  * @date 2024/7/1
  */

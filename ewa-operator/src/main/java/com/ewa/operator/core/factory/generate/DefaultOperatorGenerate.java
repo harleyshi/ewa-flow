@@ -37,12 +37,12 @@ public class DefaultOperatorGenerate implements OperatorFactory {
             AssertUtil.notNull(noargConstructor, "cannot find no-arg constructor for type " + className);
             return noargConstructor.newInstance();
         } catch (Exception e) {
-            throw new EwaFlowException(clazz.getName(), e);
+            throw new EwaFlowException(String.format("[%s] create instance error", className), e);
         }
     }
 
     @Override
-    public <T> T create(String className, Class<?> nodeParamType, String nodeParams) {
+    public <T> T create(String className, Class<?> nodeParamType, String paramsKey, String paramsValue) {
         AssertUtil.notBlank(className, "className must not be blank");
         Class<T> clazz = (Class<T>) AuxiliaryUtils.asClass(className);
         AssertUtil.notNull(clazz, String.format("cannot load class %s", className));
@@ -50,15 +50,13 @@ public class DefaultOperatorGenerate implements OperatorFactory {
             Constructor<T> constructor = getCachedNoArgConstructor(clazz);
             AssertUtil.notNull(constructor, "cannot find no-arg constructor for class: " + className);
             T created = constructor.newInstance();
-            if(StringUtils.isNotBlank(nodeParams)){
-                Object nodeParam = JSONObject.parseObject(nodeParams, nodeParamType);
-                Field field = clazz.getSuperclass().getDeclaredField("nodeParams");
-                field.setAccessible(true);
-                field.set(created, nodeParam);
-            }
+            Object nodeParam = JSONObject.parseObject(paramsValue, nodeParamType);
+            Field field = clazz.getDeclaredField(paramsKey);
+            field.setAccessible(true);
+            field.set(created, nodeParam);
             return created;
         } catch (Exception e) {
-            throw new EwaFlowException(String.format("[%s]create operator error", clazz.getSimpleName()), e);
+            throw new EwaFlowException(String.format("[%s] create instance error", className), e);
         }
     }
 

@@ -45,12 +45,12 @@ public class SpringOperatorGenerate implements OperatorFactory, ApplicationConte
             beanFactory.initializeBean(created, clazz.getSimpleName());
             return created;
         } catch (Exception e) {
-            throw new EwaFlowException(clazz.getName(), e);
+            throw new EwaFlowException(String.format("[%s] create instance error", className), e);
         }
     }
 
     @Override
-    public <T> T create(String className, Class<?> nodeParamType, String nodeParams) {
+    public <T> T create(String className, Class<?> nodeParamType, String paramsKey, String paramsValue) {
         AssertUtil.notBlank(className, "className must not be blank");
         Class<T> clazz = (Class<T>) AuxiliaryUtils.asClass(className);
         AssertUtil.notNull(clazz, String.format("cannot load class %s", className));
@@ -58,18 +58,17 @@ public class SpringOperatorGenerate implements OperatorFactory, ApplicationConte
             Constructor<T> constructor = getCachedNoArgConstructor(clazz);
             AssertUtil.notNull(constructor, "cannot find no-arg constructor for class: " + className);
             T created = constructor.newInstance();
+            Object nodeParam = JSONObject.parseObject(paramsValue, nodeParamType);
+            Field field = clazz.getDeclaredField(paramsKey);
+            field.setAccessible(true);
+            field.set(created, nodeParam);
+
             // give the bean the spring's features
             beanFactory.autowireBean(created);
             beanFactory.initializeBean(created, clazz.getSimpleName());
-            if(StringUtils.isNotBlank(nodeParams)){
-                Object nodeParam = JSONObject.parseObject(nodeParams, nodeParamType);
-                Field field = clazz.getSuperclass().getDeclaredField("nodeParams");
-                field.setAccessible(true);
-                field.set(created, nodeParam);
-            }
             return created;
         } catch (Exception e) {
-            throw new EwaFlowException(String.format("[%s]create operator error", clazz.getSimpleName()), e);
+            throw new EwaFlowException(String.format("[%s] create instance error", className), e);
         }
     }
 

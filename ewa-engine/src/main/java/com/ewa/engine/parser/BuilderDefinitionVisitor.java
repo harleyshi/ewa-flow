@@ -102,7 +102,7 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
         String test = definition.getTest();
         Operator<C, ?> condition;
         if (AuxiliaryUtils.isType(test)) {
-            condition = builderOperator(test, null);
+            condition = builderOperator(test);
         }else if(scriptExecutors.containsKey(test)){
             ScriptExecutor<C, ?> scriptExecutor = scriptExecutors.get(test);
             condition = new ScriptOperator<>(scriptExecutor);
@@ -116,11 +116,16 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
     public void visit(ComponentDefinition definition) {
         String opName = definition.getOperator();
         String paramsKey = definition.getParams();
-        String paramsValue = null;
+        Operator<C, ?> operator;
         if(StringUtils.isNotBlank(paramsKey)){
-            paramsValue = paramsMap.get(paramsKey);
+            String paramsValue = paramsMap.get(paramsKey);
+            if(StringUtils.isBlank(paramsValue)){
+                throw new EwaFlowException(String.format("params not found: %s", paramsKey));
+            }
+            operator = builderOperator(opName, paramsKey, paramsValue);
+        }else{
+            operator = builderOperator(opName);
         }
-        Operator<C, ?> operator = builderOperator(opName, paramsValue);
         SimpleComponent<C> component = new SimpleComponent<>(opName);
         component.setOperator(operator);
         component.setDesc(definition.getDesc());
@@ -188,11 +193,15 @@ public class BuilderDefinitionVisitor<C extends FlowCtx> implements DefinitionVi
     /**
      * builder operator
      * @param opName operator name
-     * @param nodeParams operator node params
      */
-    public Operator<C, ?> builderOperator(String opName, String nodeParams){
+    public Operator<C, ?> builderOperator(String opName){
         OperatorMeta opMetadata = operatorsRegister.getOperatorMeta(opName);
-        return opMetadata.builder(nodeParams);
+        return opMetadata.builder();
+    }
+
+    public Operator<C, ?> builderOperator(String opName, String paramsKey, String paramsValue){
+        OperatorMeta opMetadata = operatorsRegister.getOperatorMeta(opName);
+        return opMetadata.builder(paramsKey, paramsValue);
     }
 
     /**

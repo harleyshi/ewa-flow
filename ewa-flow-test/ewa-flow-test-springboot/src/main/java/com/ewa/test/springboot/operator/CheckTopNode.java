@@ -8,7 +8,6 @@ import com.ewa.test.springboot.context.OrderContext;
  * @author harley.shi
  * @date 2025/1/20
  */
-//@Service
 @ComponentFn
 public class CheckTopNode extends ConditionOperator<OrderContext, Boolean> {
 
