@@ -1,7 +1,6 @@
 package com.ewa.engine.core;
 
-import com.ewa.engine.core.EngineExecutor;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 
 /**
  * @author harley.shi

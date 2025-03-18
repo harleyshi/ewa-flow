@@ -3,9 +3,8 @@ package com.ewa.engine.builder;
 
 import com.ewa.engine.core.component.Component;
 import com.ewa.engine.core.component.ChooseComponent;
-import com.ewa.engine.core.component.PipelineComponent;
-import com.ewa.operator.ctx.FlowCtx;
-import com.ewa.operator.node.Operator;
+import com.ewa.operator.core.context.FlowCtx;
+import com.ewa.operator.core.Operator;
 import com.ewa.operator.utils.AssertUtil;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * choose构造器
+ * choose builder
  * @author harley.shi
  * @date 2024/7/1
  */

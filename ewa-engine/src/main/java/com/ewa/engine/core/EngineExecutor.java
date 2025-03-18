@@ -1,14 +1,12 @@
 package com.ewa.engine.core;
 
 import com.ewa.engine.core.component.Component;
-import com.ewa.operator.ctx.FlowCtx;
-import com.ewa.engine.core.component.PipelineComponent;
-import com.ewa.operator.node.Operator;
+import com.ewa.operator.core.context.FlowCtx;
+import com.ewa.operator.core.Operator;
 import com.ewa.operator.utils.AssertUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 

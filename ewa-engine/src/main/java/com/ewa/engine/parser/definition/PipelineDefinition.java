@@ -15,32 +15,27 @@ import java.util.List;
 public class PipelineDefinition extends NodeDefinition {
 
     /**
-     * 组件名称
+     * component name
      */
     private String name;
 
     /**
-     * 组件描述
+     * component description
      */
     private String desc;
 
     /**
-     * 是否异步
+     * is async
      */
     private boolean async;
 
     /**
-     * 超时时间
+     * timeout
      */
     private Integer timeout;
 
     /**
-     * 是否忽略异常
-     */
-    private boolean ignoreException = false;
-
-    /**
-     * 子组件列表
+     * children nodes
      */
     private List<NodeDefinition> children = new ArrayList<>();
 

@@ -1,7 +1,7 @@
 package com.ewa.test.springboot.operator;
 
 import com.ewa.operator.ComponentFn;
-import com.ewa.operator.node.FallbackOperator;
+import com.ewa.operator.core.FallbackOperator;
 import com.ewa.test.springboot.context.OrderContext;
 import org.springframework.stereotype.Service;
 

@@ -3,15 +3,15 @@ package com.ewa.engine.builder;
 import com.ewa.engine.core.component.Component;
 import com.ewa.engine.core.component.IfComponent;
 import com.ewa.engine.core.component.PipelineComponent;
-import com.ewa.operator.ctx.FlowCtx;
-import com.ewa.operator.node.Operator;
+import com.ewa.operator.core.context.FlowCtx;
+import com.ewa.operator.core.Operator;
 import com.ewa.operator.utils.AssertUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * if条件构造器
+ * if condition builder
  * @author harley.shi
  * @date 2024/7/1
  */

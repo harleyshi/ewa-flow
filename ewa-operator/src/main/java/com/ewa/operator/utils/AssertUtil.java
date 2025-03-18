@@ -4,9 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 
-
 /**
- * 断言工具类
+ * assert util class
  * @author harley.shi
  * @date 2024/7/3
  */

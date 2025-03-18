@@ -2,7 +2,7 @@ package com.ewa.engine.parser;
 
 import com.ewa.engine.core.EngineExecutor;
 import com.ewa.engine.parser.definition.*;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 
 /**
  * @author harley.shi
@@ -22,6 +22,8 @@ public interface DefinitionVisitor {
     void visit(IfDefinition definition);
 
     void visit(ComponentDefinition definition);
+
+    void visit(ScriptComponentDefinition definition);
 
     void visit(PipelineDefinition definition);
 

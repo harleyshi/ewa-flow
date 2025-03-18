@@ -2,7 +2,7 @@ package com.ewa.engine.core.component;
 
 import com.ewa.engine.threadpool.Parallel;
 import com.ewa.engine.threadpool.ThreadPool;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 /**
- * pipeline构造器
+ * pipeline component
  * @author harley.shi
  * @date 2024/7/2
  */
@@ -23,17 +23,17 @@ import java.util.concurrent.Executor;
 public class PipelineComponent<C extends FlowCtx> extends Component<C> {
 
     /**
-     * 组件描述
+     * component description
      */
     private String desc;
 
     /**
-     * 是否异步
+     * is async
      */
     private boolean async;
 
     /**
-     * 组件列表
+     * child components of pipeline
      */
     private List<Component<C>> pipeline;
 

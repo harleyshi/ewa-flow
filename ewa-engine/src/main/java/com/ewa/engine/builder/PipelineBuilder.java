@@ -1,7 +1,7 @@
 package com.ewa.engine.builder;
 
 
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 import com.ewa.engine.core.component.Component;
 import com.ewa.engine.core.component.PipelineComponent;
 import com.ewa.operator.utils.AssertUtil;
@@ -15,27 +15,25 @@ import java.util.List;
  * @date 2024/7/1
  */
 public class PipelineBuilder<C extends FlowCtx> implements Builder<C> {
+    /**
+     * component name
+     */
     private final String name;
 
     /**
-     * 组件描述
+     * component description
      */
     private String desc;
 
     /**
-     * 是否异步
+     * component is async or not
      */
     private boolean async;
 
     /**
-     * 超时时间
+     * component execution timeout
      */
     private Integer timeout;
-
-    /**
-     * 是否忽略异常
-     */
-    private boolean ignoreException = false;
 
 
     private final List<Component<C>> components = new ArrayList<>();
@@ -63,11 +61,6 @@ public class PipelineBuilder<C extends FlowCtx> implements Builder<C> {
 
     public PipelineBuilder<C> timeout(Integer timeout) {
         this.timeout = timeout;
-        return this;
-    }
-
-    public PipelineBuilder<C> ignoreException(boolean ignoreException) {
-        this.ignoreException = ignoreException;
         return this;
     }
 

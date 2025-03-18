@@ -1,12 +1,13 @@
 package com.ewa.engine.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.ewa.engine.core.ClassPathXmlEngineManager;
 import com.ewa.engine.EwaEngineSpringInitializer;
+import com.ewa.engine.core.ClassPathXmlEngineManager;
 import com.ewa.engine.core.EngineManager;
 import com.ewa.engine.core.MySQLEngineManager;
 import com.ewa.engine.loader.EngineLoader;
 import com.ewa.engine.loader.MySQLEngineLoader;
+import com.ewa.operator.core.factory.generate.SpringOperatorGenerate;
 import com.ewa.operator.utils.AssertUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,7 +76,13 @@ public class EwaEngineAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public EwaEngineSpringInitializer dagEngineSpringInitializer(EngineManager engineManager) {
+    public EwaEngineSpringInitializer ewaEngineSpringInitializer(EngineManager engineManager) {
         return new EwaEngineSpringInitializer(engineManager);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SpringOperatorGenerate springOperatorGenerate() {
+        return new SpringOperatorGenerate();
     }
 }

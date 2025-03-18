@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.w3school.com.cn ewa-flow.xsd">
     <engine name="recommend-for-you"  desc="recommend for you 推荐流程">
-<!--        <pipeline name="recall" desc="召回" async="true">-->
-<!--            <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>-->
-<!--            <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>-->
-<!--            <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>-->
-<!--        </pipeline>-->
+        <pipeline name="recall" desc="召回" async="true">
+            <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>
+            <component execute="com.ewa.test.springboot.operator.I2iRecallNode" desc="i2i召回"/>
+            <component execute="com.ewa.test.springboot.operator.UserCFRecallNode" desc="用户协同召回"/>
+        </pipeline>
         <choose test="com.ewa.test.springboot.operator.SwitchNode">
             <case when="1">
                 <component execute="com.ewa.test.springboot.operator.HotRecallNode" desc="热度召回"/>
@@ -20,8 +20,10 @@
             </default>
         </choose>
         <component execute="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并" params="paramsCheck"/>
-        <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="点击率排序"/>
-        <if test="com.ewa.test.springboot.operator.CheckTopNode" desc="是否需要运营干预">
+<!--        <component execute="com.ewa.test.springboot.operator.CtrRankNode" desc="点击率排序"/>-->
+        <scriptComponent ref="scriptTest2" desc="点击率排序"/>
+<!--        <if test="com.ewa.test.springboot.operator.CheckTopNode" desc="是否需要运营干预">-->
+        <if test="scriptTest" desc="是否需要运营干预">
             <then>
                 <component execute="com.ewa.test.springboot.operator.TopReRankNode" desc="运营干预"/>
             </then>
@@ -30,6 +32,8 @@
             </else>
         </if>
 
+<!--        <component execute="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并" params="paramsCheck"/>-->
+<!--        <component execute="com.ewa.test.springboot.operator.MergeRecallNode" desc="召回结果合并2" params="rollbackParamsCheck"/>-->
     </engine>
 
 
@@ -41,13 +45,13 @@
         </param>
         <param name="rollbackParamsCheck" desc="订单是否来自购物车">
             {
-            "orderId": "123456789"
+            "orderId": "1234564234234789"
             }
         </param>
     </configParams>
 
     <scripts>
-        <script name="scriptTest">
+        <script name="scriptTest" type="groovy">
             System.out.println("invoke scriptTest");
             int a = 1;
             int b = 12;
@@ -55,8 +59,8 @@
             return true;
         </script>
 
-        <script name="scriptTest">
-            System.out.println("invoke scriptTest");
+        <script name="scriptTest2" type="groovy">
+            System.out.println("invoke scriptTest2");
             int a = 1;
             int b = 12;
             boolean result = "123456".equals(ctx.orderId);

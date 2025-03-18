@@ -1,13 +1,13 @@
 package com.ewa.engine.core.component;
 
-import com.ewa.operator.ctx.FlowCtx;
-import com.ewa.operator.node.Operator;
+import com.ewa.operator.core.context.FlowCtx;
+import com.ewa.operator.core.Operator;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 标准组件构造器
+ * simple component
  * @author harley.shi
  * @date 2024/7/1
  */
@@ -16,22 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class SimpleComponent<C extends FlowCtx> extends Component<C> {
     /**
-     * 组件描述
+     * component description
      */
     private String desc;
 
     /**
-     * 组件参数
-     */
-    private Object param;
-
-    /**
-     * 算子
+     * component operator
      */
     private Operator<C, ?> operator;
 
     /**
-     * 回滚组件
+     * rollback operator
      */
     private Operator<C, ?> rollback;
 

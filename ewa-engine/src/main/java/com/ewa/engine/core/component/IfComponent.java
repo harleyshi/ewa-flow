@@ -1,7 +1,7 @@
 package com.ewa.engine.core.component;
 
-import com.ewa.operator.ctx.FlowCtx;
-import com.ewa.operator.node.Operator;
+import com.ewa.operator.core.context.FlowCtx;
+import com.ewa.operator.core.Operator;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

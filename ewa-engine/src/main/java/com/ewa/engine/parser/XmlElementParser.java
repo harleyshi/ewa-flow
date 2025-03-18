@@ -36,6 +36,8 @@ public class XmlElementParser implements EngineParser {
                 return parseChoose(element);
             case COMPONENT:
                 return parseComponent(element);
+            case SCRIPT_COMPONENT:
+                return parseScriptComponent(element);
             default:
                 throw new IllegalArgumentException("Unsupported node type: " + nodeType);
         }
@@ -80,6 +82,20 @@ public class XmlElementParser implements EngineParser {
         return component;
     }
 
+    private NodeDefinition parseScriptComponent(Element element) {
+        ScriptComponentDefinition component = new ScriptComponentDefinition();
+        component.setId(idGenerator.getAndIncrement());
+        String ref = element.attributeValue(REF);
+        component.setRef(ref);
+        if (element.attributeValue(IGNORE_EXCEPTION) != null) {
+            component.setIgnoreException(Boolean.parseBoolean(element.attributeValue(IGNORE_EXCEPTION)));
+        }
+        if (element.attributeValue(TIMEOUT) != null) {
+            component.setTimeout(Integer.parseInt(element.attributeValue(TIMEOUT)));
+        }
+        return component;
+    }
+
     private NodeDefinition parsePipeline(Element element) {
         PipelineDefinition pipeline = new PipelineDefinition();
         pipeline.setId(idGenerator.getAndIncrement());
@@ -95,9 +111,6 @@ public class XmlElementParser implements EngineParser {
         }
         if (element.attributeValue(DESC) != null) {
             pipeline.setDesc(element.attributeValue(DESC));
-        }
-        if (element.attributeValue(IGNORE_EXCEPTION) != null) {
-            pipeline.setIgnoreException(Boolean.parseBoolean(element.attributeValue(IGNORE_EXCEPTION)));
         }
         if (element.attributeValue(TIMEOUT) != null) {
             pipeline.setTimeout(Integer.parseInt(element.attributeValue(TIMEOUT)));
@@ -120,12 +133,6 @@ public class XmlElementParser implements EngineParser {
         if(elseElement != null){
             ifDefinition.setIfElse(parseElements(elseElement.elements()));
         }
-        if (element.attributeValue(IGNORE_EXCEPTION) != null) {
-            ifDefinition.setIgnoreException(Boolean.parseBoolean(element.attributeValue(IGNORE_EXCEPTION)));
-        }
-        if (element.attributeValue(TIMEOUT) != null) {
-            ifDefinition.setTimeout(Integer.parseInt(element.attributeValue(TIMEOUT)));
-        }
         return ifDefinition;
     }
 
@@ -147,13 +154,6 @@ public class XmlElementParser implements EngineParser {
             caseMap.put(caseStr, parseElements(caseElement.elements()));
         }
         choose.setCaseMap(caseMap);
-
-        if (element.attributeValue(IGNORE_EXCEPTION) != null) {
-            choose.setIgnoreException(Boolean.parseBoolean(element.attributeValue(IGNORE_EXCEPTION)));
-        }
-        if (element.attributeValue(TIMEOUT) != null) {
-            choose.setTimeout(Integer.parseInt(element.attributeValue(TIMEOUT)));
-        }
         return choose;
     }
 

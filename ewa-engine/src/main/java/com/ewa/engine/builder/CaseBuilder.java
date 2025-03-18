@@ -2,13 +2,13 @@ package com.ewa.engine.builder;
 
 import com.ewa.engine.core.component.Component;
 import com.ewa.engine.core.component.PipelineComponent;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 import com.ewa.operator.utils.AssertUtil;
 
 import java.util.List;
 
 /**
- * case构造器
+ * case builder
  * @author harley.shi
  * @date 2024/7/1
  */

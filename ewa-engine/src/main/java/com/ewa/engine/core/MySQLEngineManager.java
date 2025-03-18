@@ -2,9 +2,9 @@ package com.ewa.engine.core;
 
 
 import com.ewa.engine.domain.EwaEngineDO;
-import com.ewa.engine.common.exception.EwaFlowException;
+import com.ewa.operator.exception.EwaFlowException;
 import com.ewa.engine.loader.EngineLoader;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 
 import java.util.List;
 

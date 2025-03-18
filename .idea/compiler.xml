@@ -11,6 +11,7 @@
         </processorPath>
         <module name="ewa-operator" />
         <module name="ewa-engine" />
+        <module name="ewa-script-groovy" />
         <module name="ewa-flow-test-springboot" />
       </profile>
       <profile name="Maven default annotation processors profile" enabled="true">

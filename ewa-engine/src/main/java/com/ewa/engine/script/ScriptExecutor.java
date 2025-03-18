@@ -1,6 +1,6 @@
 package com.ewa.engine.script;
 
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 import com.ewa.operator.common.enums.ScriptLang;
 import lombok.Data;
 
@@ -11,18 +11,17 @@ import lombok.Data;
 @Data
 public abstract class ScriptExecutor<C extends FlowCtx, O> implements Describable {
     /**
-     * 脚本名称
+     * script name.
      */
     protected String name;
 
     /**
-     * 执行脚本
+     * script content.
      */
     protected String script;
 
     /**
-     * 获取脚本语言
-     *
+     * get script language.
      * @return type string
      */
     public abstract ScriptLang getScriptLang();

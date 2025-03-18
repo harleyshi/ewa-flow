@@ -96,6 +96,12 @@
             <optional>true</optional>
             <version>${ewa-flow.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.ewa.flow</groupId>
+            <artifactId>ewa-script-groovy</artifactId>
+            <version>${ewa-flow.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

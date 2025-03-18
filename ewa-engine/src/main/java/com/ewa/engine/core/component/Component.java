@@ -1,12 +1,12 @@
 package com.ewa.engine.core.component;
 
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 组件抽象类
+ * component base class
  * @author harley.shi
  * @date 2024/7/1
  */
@@ -16,17 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class Component<C extends FlowCtx> {
 
     /**
-     * 组件名
+     * component name
      */
     private String name;
 
     /**
-     * 超时时间
+     * timeout
      */
     private Integer timeout;
 
     /**
-     * 是否忽略异常（如果pipeline忽略异常的话pipeline下的算子默认都会忽略异常）
+     * ignore exception
      */
     private boolean ignoreException = false;
 
@@ -57,7 +57,6 @@ public abstract class Component<C extends FlowCtx> {
      * 组件执行方法
      * @param context 上下文
      * @return 是否成功
-     * @throws Throwable
      */
     public abstract void doExecute(C context);
 }

@@ -1,4 +1,4 @@
-package com.ewa.engine.common.exception;
+package com.ewa.operator.exception;
 
 public class OperatorExecutionException extends RuntimeException {
 

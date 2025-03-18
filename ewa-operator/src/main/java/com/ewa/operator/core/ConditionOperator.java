@@ -1,9 +1,9 @@
-package com.ewa.operator.node;
+package com.ewa.operator.core;
 
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 
 /**
- * 条件算子
+ * condition operator
  * @author harley.shi
  * @date 2025/1/13
  */

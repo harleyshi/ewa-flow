@@ -3,15 +3,14 @@ package com.ewa.engine.builder;
 
 import com.ewa.engine.core.EngineExecutor;
 import com.ewa.engine.core.component.Component;
-import com.ewa.engine.core.component.PipelineComponent;
 import com.ewa.operator.utils.AssertUtil;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 引擎构造器
+ * engine builder
  * @author harley.shi
  * @date 2024/7/1
  */
@@ -21,11 +20,6 @@ public class EngineBuilder<C extends FlowCtx> {
      * engine name
      */
     private String name;
-
-    /**
-     * engine description
-     */
-    private String desc;
 
     /**
      * engine components
@@ -41,12 +35,6 @@ public class EngineBuilder<C extends FlowCtx> {
     public EngineBuilder<C> name(String name) {
         AssertUtil.notBlank(name, "name must not be blank");
         this.name = name;
-        return this;
-    }
-
-    public EngineBuilder<C> desc(String desc) {
-        AssertUtil.notBlank(desc, "desc must not be blank");
-        this.desc = desc;
         return this;
     }
 

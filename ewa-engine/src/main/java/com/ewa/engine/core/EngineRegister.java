@@ -1,6 +1,6 @@
 package com.ewa.engine.core;
 
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +24,9 @@ public class EngineRegister {
         engineExecutorMap.put(flowEngine.getName(), flowEngine);
     }
 
+    public boolean contains(String name) {
+        return engineExecutorMap.containsKey(name);
+    }
     public EngineExecutor<FlowCtx> get(String name) {
         return engineExecutorMap.get(name);
     }

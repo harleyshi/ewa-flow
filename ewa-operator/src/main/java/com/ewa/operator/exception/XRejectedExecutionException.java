@@ -1,4 +1,4 @@
-package com.ewa.engine.common.exception;
+package com.ewa.operator.exception;
 
 /**
  * 线程池满拒绝请求.

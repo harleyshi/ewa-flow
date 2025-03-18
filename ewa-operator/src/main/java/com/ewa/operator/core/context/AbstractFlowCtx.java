@@ -1,6 +1,6 @@
-package com.ewa.operator.ctx;
+package com.ewa.operator.core.context;
 
-import com.ewa.operator.node.Operator;
+import com.ewa.operator.core.Operator;
 
 import java.util.Stack;
 

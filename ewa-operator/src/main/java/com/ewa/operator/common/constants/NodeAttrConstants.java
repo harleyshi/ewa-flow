@@ -24,5 +24,6 @@ public interface NodeAttrConstants {
     String CASE = "case";
     String SCRIPT_TYPE = "type";
     String PARAMS = "params";
+    String REF = "ref";
 //    String SUB_PIPELINE = "subPipeline";
 }

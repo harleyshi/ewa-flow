@@ -4,7 +4,7 @@ import com.ewa.engine.core.EngineExecutor;
 import com.ewa.engine.parser.definition.*;
 import com.ewa.operator.common.enums.NodeType;
 import com.ewa.operator.common.enums.ScriptLang;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -83,6 +83,7 @@ public class DSLParser {
             String scriptValue = child.getStringValue();
             ScriptDefinition scriptDefinition = new  ScriptDefinition();
             scriptDefinition.setName(name);
+            // default groovy
             scriptDefinition.setType(StringUtils.isBlank(type) ? ScriptLang.GROOVY.getCode() : type);
             scriptDefinition.setScript(scriptValue);
             scriptList.add(scriptDefinition);

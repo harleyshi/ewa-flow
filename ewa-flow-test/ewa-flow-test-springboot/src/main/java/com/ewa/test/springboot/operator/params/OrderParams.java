@@ -7,6 +7,6 @@ import lombok.Data;
  * @date 2025/3/14
  */
 @Data
-public class OrderParams {
+public final class OrderParams {
     private String orderId;
 }

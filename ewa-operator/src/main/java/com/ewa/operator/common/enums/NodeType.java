@@ -20,6 +20,8 @@ public enum NodeType {
 
     COMPONENT("component", "组件节点"),
 
+    SCRIPT_COMPONENT("scriptComponent", "脚本组件节点"),
+
     CONFIG_PARAMS("configParams", "配置参数节点"),
 
     SCRIPTS("scripts", "脚本节点")

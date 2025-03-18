@@ -9,6 +9,10 @@
     <file url="file://$PROJECT_DIR$/ewa-flow-test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ewa-operator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ewa-operator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ewa-script/ewa-script-groovy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ewa-script/ewa-script-groovy/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ewa-script/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ewa-script/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

@@ -1,7 +1,7 @@
 package com.ewa.engine.script;
 
 
-import com.ewa.engine.common.exception.EwaFlowException;
+import com.ewa.operator.exception.EwaFlowException;
 import com.ewa.operator.utils.AssertUtil;
 import com.ewa.operator.utils.AuxiliaryUtils;
 

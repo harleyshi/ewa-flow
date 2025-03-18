@@ -1,17 +1,16 @@
 package com.ewa.engine.builder;
 
 
-import com.ewa.engine.core.creator.DefaultObjectCreator;
-import com.ewa.engine.core.creator.ObjectCreator;
-import com.ewa.engine.common.exception.EwaFlowException;
 import com.ewa.engine.script.ScriptDetector;
 import com.ewa.engine.script.ScriptExecutor;
-import com.ewa.operator.ctx.FlowCtx;
+import com.ewa.operator.core.context.FlowCtx;
+import com.ewa.operator.core.factory.generate.DefaultOperatorGenerate;
+import com.ewa.operator.exception.EwaFlowException;
 import com.ewa.operator.utils.AssertUtil;
 import com.ewa.operator.utils.AuxiliaryUtils;
 
 /**
- * choose构造器
+ * script builder
  * @author harley.shi
  * @date 2024/7/1
  */
@@ -31,8 +30,6 @@ public class ScriptBuilder<C extends FlowCtx, O>{
      * Script content, required.
      */
     private String script;
-
-    private final ObjectCreator objectCreator = DefaultObjectCreator.getInstance();
 
     public ScriptBuilder<C, O> name(String name) {
         AssertUtil.notBlank(name, "name must not be blank");
@@ -71,7 +68,7 @@ public class ScriptBuilder<C extends FlowCtx, O>{
         }
         String typename = full != null ? full.getName() : type;
         try {
-            return objectCreator.create(typename, ScriptExecutor.class, false);
+            return DefaultOperatorGenerate.getInstance().create(typename);
         }catch (Exception e){
             throw new EwaFlowException(String.format("Failed to create script executor for typename %s", typename), e);
         }

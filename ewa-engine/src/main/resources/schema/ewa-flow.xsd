@@ -24,6 +24,7 @@
             <xs:choice minOccurs="1" maxOccurs="unbounded">
                 <xs:element ref="pipeline"/>
                 <xs:element ref="component"/>
+                <xs:element ref="scriptComponent"/>
                 <xs:element ref="if"/>
                 <xs:element ref="choose"/>
             </xs:choice>
@@ -83,25 +84,20 @@
             </xs:attribute>
             <xs:attribute name="type" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation><![CDATA[script类型，例如QLExpress、OGNL等, 或者填写类全称限定名，Spring环境下可不填写该字段]]></xs:documentation>
+                    <xs:documentation><![CDATA[script类型，例如groovy, javascript等]]></xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:anyAttribute namespace="##any" processContents="lax"/>
         </xs:complexType>
     </xs:element>
 
-    <!-- 通用属性组 -->
-    <xs:attributeGroup name="commonAttributeGroup">
-        <xs:attribute name="ignoreException" type="xs:boolean" default="false"/>
-        <xs:attribute name="timeout" type="xs:int"/>
-    </xs:attributeGroup>
 
     <!-- pipeline节点属性组 -->
     <xs:attributeGroup name="pipelineAttributeGroup">
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="desc" type="xs:string"/>
         <xs:attribute name="async" type="xs:boolean" default="false"/>
-        <xs:attributeGroup ref="commonAttributeGroup"/>
+        <xs:attribute name="timeout" type="xs:int"/>
     </xs:attributeGroup>
 
     <!-- 普通节点属性组 -->
@@ -109,7 +105,8 @@
         <xs:attribute name="execute" type="xs:string" use="required"/>
         <xs:attribute name="desc" type="xs:string"/>
         <xs:attribute name="params" type="xs:string"/>
-        <xs:attributeGroup ref="commonAttributeGroup"/>
+        <xs:attribute name="ignoreException" type="xs:boolean" default="false"/>
+        <xs:attribute name="timeout" type="xs:int"/>
     </xs:attributeGroup>
 
     <xs:element name="pipeline">
@@ -121,6 +118,7 @@
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
                     <xs:element ref="pipeline"/>
                     <xs:element ref="component"/>
+                    <xs:element ref="scriptComponent"/>
                     <xs:element ref="if"/>
                     <xs:element ref="choose"/>
                 </xs:choice>
@@ -140,6 +138,18 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="scriptComponent">
+        <xs:annotation>
+            <xs:documentation><![CDATA[定义一个脚本节点。]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="ref" type="xs:string" use="required"/>
+            <xs:attribute name="ignoreException" type="xs:boolean" default="false"/>
+            <xs:attribute name="timeout" type="xs:int"/>
+            <xs:anyAttribute namespace="##any" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="if">
         <xs:complexType>
             <xs:sequence>
@@ -151,7 +161,6 @@
                     <xs:documentation><![CDATA[条件判断对象]]></xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attributeGroup ref="commonAttributeGroup"/>
             <xs:anyAttribute namespace="##any" processContents="lax"/>
         </xs:complexType>
     </xs:element>
@@ -203,7 +212,6 @@
                     <xs:documentation><![CDATA[条件判断对象]]></xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attributeGroup ref="commonAttributeGroup"/>
             <xs:anyAttribute namespace="##any" processContents="lax"/>
         </xs:complexType>
     </xs:element>

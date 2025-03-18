@@ -17,12 +17,12 @@ import java.util.Map;
 public class ChooseDefinition extends ConditionDefinition {
 
     /**
-     * 默认分支
+     * default branch
      */
     private List<NodeDefinition> defaultDef;
 
     /**
-     * 条件分支
+     * cash branch map
      */
     private Map<String, List<NodeDefinition>> caseMap;
 

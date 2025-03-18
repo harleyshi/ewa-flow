@@ -13,6 +13,8 @@
         <module>ewa-operator</module>
         <module>ewa-engine</module>
         <module>ewa-flow-test</module>
+        <module>ewa-script</module>
+        <module>ewa-script/ewa-script-groovy</module>
     </modules>
 
     <properties>
@@ -96,6 +98,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

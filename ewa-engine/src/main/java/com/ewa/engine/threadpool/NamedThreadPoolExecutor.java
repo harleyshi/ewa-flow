@@ -1,6 +1,6 @@
 package com.ewa.engine.threadpool;
 
-import com.ewa.engine.common.exception.XRejectedExecutionException;
+import com.ewa.operator.exception.XRejectedExecutionException;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadFactory;
