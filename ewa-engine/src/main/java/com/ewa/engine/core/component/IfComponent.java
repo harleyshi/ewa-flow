@@ -29,6 +29,7 @@ public class IfComponent<C extends FlowCtx> extends Component<C> {
         Object test = condition.execute(ctx);
         if(test == null){
             Invoker.invoke(ctx, elseComponent);
+            return;
         }
         if(!(test instanceof Boolean)){
             throw new OperatorExecutionException(String.format("operator [%s] must return boolean, but returned [%s].", getName(), test.getClass().getName()));
